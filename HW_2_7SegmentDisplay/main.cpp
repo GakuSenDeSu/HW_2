@@ -7,9 +7,9 @@ AnalogOut Aout(DAC0_OUT);
 
 // Read wave from picoscope
 AnalogIn Ain(A0);
-int sample = 200;
+int sample = 300;
 int i;
-float ADCdata[200];
+float ADCdata[300];
 int TimeState =0;
 float InitialTime = 0.0;
 float FinalTime = 0.0;

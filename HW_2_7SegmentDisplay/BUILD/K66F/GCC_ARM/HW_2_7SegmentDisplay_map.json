@@ -15,10 +15,10 @@
         "size": {
             ".text": 1084,
             ".data": 4,
-            ".bss": 1107,
+            ".bss": 1507,
             ".text-delta": 0,
             ".data-delta": 0,
-            ".bss-delta": 288
+            ".bss-delta": 400
         }
     },
     {
@@ -89,8 +89,8 @@
     },
     {
         "summary": {
-            "static_ram": 11032,
-            "static_ram_delta": 288,
+            "static_ram": 11432,
+            "static_ram_delta": 400,
             "total_flash": 70379,
             "total_flash_delta": 0
         }
