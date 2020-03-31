@@ -40,8 +40,9 @@ int main(){
       FinalTime = time(NULL);
     }
     if (InitialTime !=0 && FinalTime != 0){
-    FrequencySum += FinalTime-InitialTime;
-    ZeroNum++;
+      FrequencySum += FinalTime-InitialTime;
+      InitialTime = FinalTime = 0;
+      ZeroNum++;
     }
     wait(1./sample);
   }
