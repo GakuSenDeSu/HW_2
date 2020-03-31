@@ -7,8 +7,8 @@ AnalogOut Aout(DAC0_OUT);
 
 // Read wave from picoscope
 AnalogIn Ain(A0);
-int sample = 200;
-float ADCdata[128];
+int sample = 500;
+float ADCdata[500];
 int i;
 int TimeState =0;
 float InitialTime = 0.0;
@@ -34,6 +34,7 @@ int main(){
     greenLED = 1;
     for (i = 0; i < sample; i++){
       Aout = Ain;
+      ADCdata[i] = Ain;
       if (Ain == 0 && TimeState == 0){
         TimeState = 1;
         InitialTime = time(NULL);
@@ -43,18 +44,19 @@ int main(){
         FinalTime = time(NULL);
       }
       if (InitialTime !=0 && FinalTime != 0){
-        FrequencySum += FinalTime-InitialTime;
-        InitialTime = FinalTime = 0;
+        FrequencySum += (FinalTime-InitialTime);
+        InitialTime = 0;
+        FinalTime = 0;
         ZeroNum++;
       }
-      wait(1./sample);
+      wait(0.0002);
     }
     for (i = 0; i < sample; i++){
       pc.printf("%1.3f\r\n", ADCdata[i]);
-      wait(0.1);
+      wait(0.02);
     }
     frequency = round(FrequencySum/ZeroNum);
-  /*
+  
     //Save frequency value as table--------------------------
     int hun = floor(frequency/100);
     int ten = floor((frequency-hun*100)/10);
@@ -158,18 +160,16 @@ int main(){
 
   //LED switch and 7 segment display--------------------------------------
     if( Switch == 1 ){
-      greenLED = 0;
-      redLED = 1;
+      greenLED = 1;
+      redLED = 0;
       for (int j = 0; j<3; j = j+1){
         display = table[j];
         wait(1);
       }
-      wait(1);
     }
     else{
-      redLED = 0;
-      greenLED = 1;
-      wait(1);
-    }*/
+      redLED = 1;
+      greenLED = 0;
+    }
   }
 }
