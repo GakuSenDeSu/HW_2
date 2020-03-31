@@ -7,9 +7,9 @@ AnalogOut Aout(DAC0_OUT);
 
 // Read wave from picoscope
 AnalogIn Ain(A0);
-int sample = 128;
+int sample = 200;
 int i;
-float ADCdata[128];
+float ADCdata[200];
 int TimeState =0;
 float InitialTime = 0.0;
 float FinalTime = 0.0;
@@ -26,10 +26,9 @@ DigitalIn  Switch(SW3);
 DigitalOut redLED(LED1);
 DigitalOut greenLED(LED2);
 
-redLED = 0;
-greenLED = 0;
-
 int main(){
+  redLED = 0;
+  greenLED = 0;
   //Calculate sine wave frequency
   while(1){
   for (i = 0; i < sample; i++){
