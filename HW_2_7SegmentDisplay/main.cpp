@@ -1,6 +1,6 @@
 #include "mbed.h"
 
-//Serial pc( USBTX, USBRX );
+Serial pc( USBTX, USBRX );
 
 // Push wave to picoscope
 AnalogOut Aout(DAC0_OUT);
@@ -8,6 +8,7 @@ AnalogOut Aout(DAC0_OUT);
 // Read wave from picoscope
 AnalogIn Ain(A0);
 int sample = 200;
+float ADCdata[128];
 int i;
 int TimeState =0;
 float InitialTime = 0.0;
@@ -29,8 +30,8 @@ DigitalOut greenLED(LED2);
 int main(){
   //Calculate sine wave frequency
   while(1){
-    redLED = 0;
-    greenLED = 0;
+    redLED = 1;
+    greenLED = 1;
     for (i = 0; i < sample; i++){
       Aout = Ain;
       if (Ain == 0 && TimeState == 0){
@@ -53,7 +54,7 @@ int main(){
       wait(0.1);
     }
     frequency = round(FrequencySum/ZeroNum);
-  
+  /*
     //Save frequency value as table--------------------------
     int hun = floor(frequency/100);
     int ten = floor((frequency-hun*100)/10);
@@ -155,7 +156,7 @@ int main(){
         break;
     }
 
-  //LED switch and 7 segment display--------------------------------------*/
+  //LED switch and 7 segment display--------------------------------------
     if( Switch == 1 ){
       greenLED = 0;
       redLED = 1;
@@ -169,6 +170,6 @@ int main(){
       redLED = 0;
       greenLED = 1;
       wait(1);
-    }
+    }*/
   }
 }
