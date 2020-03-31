@@ -46,7 +46,11 @@ int main(){
         InitialTime = FinalTime = 0;
         ZeroNum++;
       }
-      wait(0.005);
+      wait(1./sample);
+    }
+    for (i = 0; i < sample; i++){
+      pc.printf("%1.3f\r\n", ADCdata[i]);
+      wait(0.1);
     }
     frequency = round(FrequencySum/ZeroNum);
   
