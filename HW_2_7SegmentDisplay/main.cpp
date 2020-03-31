@@ -47,7 +47,7 @@ int main(){
     wait(1./sample);
   }
   frequency = round(FrequencySum/ZeroNum);
-  /*
+  //*
   // Save frequency value as table--------------------------
   int hun = floor(frequency/100);
   int ten = floor((frequency-hun*100)/10);
@@ -118,14 +118,14 @@ int main(){
     case 9:
       table[3]={0xEF};
   }
-*/
+//*/
   // Put the binary file into the mbed Microcontroller--------------------
   for (i = 0; i < sample; i++){
     pc.printf("%1.3f\r\n", ADCdata[i]);
     wait(0.1);
   }
 
-  /*
+  //*
   //LED switch and 7 segment display--------------------------------------
   if( Switch == 1 ){
   greenLED = 0;
@@ -139,5 +139,5 @@ int main(){
   redLED = 0;
   greenLED = 1;
   }
-  */
+  //*/
 }
