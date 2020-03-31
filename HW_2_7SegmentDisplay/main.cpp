@@ -26,8 +26,12 @@ DigitalIn  Switch(SW3);
 DigitalOut redLED(LED1);
 DigitalOut greenLED(LED2);
 
+redLED = 0;
+greenLED = 0;
+
 int main(){
   //Calculate sine wave frequency
+  while(1){
   for (i = 0; i < sample; i++){
     Aout = Ain;
     ADCdata[i] = Ain;
@@ -119,12 +123,6 @@ int main(){
       table[3]={0xEF};
   }
 //*/
-  // Put the binary file into the mbed Microcontroller--------------------
-  for (i = 0; i < sample; i++){
-    pc.printf("%1.3f\r\n", ADCdata[i]);
-    wait(0.1);
-  }
-
   //*
   //LED switch and 7 segment display--------------------------------------
   if( Switch == 1 ){
@@ -140,4 +138,5 @@ int main(){
   greenLED = 1;
   }
   //*/
+  }
 }
