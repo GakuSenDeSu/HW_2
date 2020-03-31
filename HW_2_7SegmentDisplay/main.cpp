@@ -59,68 +59,98 @@ int main(){
   switch (hun){
     case 0:
       table[1]={0x3F};
+      break;
     case 1:
       table[1]={0x06};
+      break;
     case 2:
       table[1]={0x5B};
+      break;
     case 3:
       table[1]={0x4F};
+      break;
     case 4:
       table[1]={0x66};
+      break;
     case 5:
       table[1]={0x6D};
+    break;
     case 6:
       table[1]={0x7D};
+    break;
     case 7:
       table[1]={0x07};
+    break;
     case 8:
       table[1]={0x7F};
+    break;
     case 9:
       table[1]={0x6F};
+      break;
   }
   switch (ten){
     case 0:
       table[2]={0x3F};
+      break;
     case 1:
       table[2]={0x06};
+      break;
     case 2:
       table[2]={0x5B};
+      break;
     case 3:
       table[2]={0x4F};
+      break;
     case 4:
       table[2]={0x66};
+      break;
     case 5:
       table[2]={0x6D};
+      break;
     case 6:
       table[2]={0x7D};
+      break;
     case 7:
       table[2]={0x07};
+      break;
     case 8:
       table[2]={0x7F};
+      break;
     case 9:
       table[2]={0x6F};
+      break;
   }
   switch (one){
     case 0:
       table[3]={0xBF};
+      break;
     case 1:
       table[3]={0x86};
+      break;
     case 2:
       table[3]={0xDB};
+      break;
     case 3:
       table[3]={0xCF};
+      break;
     case 4:
       table[3]={0xE6};
+      break;
     case 5:
       table[3]={0xED};
+      break;
     case 6:
       table[3]={0xFD};
+      break;
     case 7:
       table[3]={0x87};
+      break;
     case 8:
       table[3]={0xFF};
+      break;
     case 9:
       table[3]={0xEF};
+      break;
   }
 //*/
   //*
