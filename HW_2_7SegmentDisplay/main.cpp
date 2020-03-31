@@ -5,10 +5,10 @@ Serial pc( USBTX, USBRX );
 AnalogOut Aout(DAC0_OUT);
 // Read wave from picoscope
 AnalogIn Ain(A0);
-int TimeState = 0;
-float InitialTime = 0.0;
-float FinalTime = 0.0;
-float frequency = 0.0;
+int sample = 128;
+int i;
+float ADCdata[128];
+int ZeroNum =0;
 // 7 segment display setup
 BusOut display(D6, D7, D9, D10, D11, D5, D4, D8);
 // LED switch setup
@@ -19,19 +19,32 @@ DigitalOut greenLED(LED2);
 int main(){
   while(1){
       //calculate sine wave frequency
-      if (Ain == 0 && TimeState ==0){
-        InitialTime = time(NULL);
-        TimeState = 1;
+      for (i = 0; i < sample; i++){
+        Aout = Ain;
+        ADCdata[i] = Ain;
+        if (Ain==0 && TimeState = 0){
+          int TimeState=1;
+          float InitialTime=time(NULL);
+        }
+        else if(Ain ==0 && TimeState =1){
+          TimeState=0;
+          float FinalTime=time(NULL);
+        }
+        if (InitialTime !=0 && FinalTime !=0){
+          float FrequencySum += FinalTime-InitialTime;
+          ZeroNum++;
+        }
+        wait(1./sample);
       }
-      else if (Ain == 0 && TimeState ==1){
-          FinalTime =time(NULL);
-          TimeState = 0;
-      }
-      frequency = 2*(FinalTime-InitialTime);
-
+      int frequency = rint(FrequencySum/ZeroNum);
+      for (i = 0; i < sample; i++){
+        pc.printf("%1.3f\r\n", ADCdata[i]);
+        
+        wait(0.1);
+        }
       //change frequency to table => table[3]={,,}
-      Aout = sin(2*3.14159/frequency);//Ain should be frequency
-      wait(0.001);
+
+      //LED switch and 7 segment display
       if( Switch == 1 ){ //LED setup
       greenLED = 0;
       redLED = 1;
