@@ -27,18 +27,17 @@ InterruptIn Switch(SW3);
 DigitalOut redLED(LED1);
 DigitalOut greenLED(LED2);
 
+// Simulately running: Switch(with 7 segment display)+ print to python
+Thread thread1;
+Thread thread2;
+
 void ISR1(){
   redLED = !redLED;
   greenLED = !greenLED;
 }
 
-int main(){
-  //Switch LED
-  redLED = 1;
-  greenLED = 0;
-  button.rise(&ISR1);
-  while(1){
-    //Calculate sine wave frequency
+void wave_thread(){
+  while(true){
     for (i = 0; i < sample; i++){
       Aout = Ain;
       ADCdata[i] = Ain;
@@ -63,8 +62,11 @@ int main(){
       wait(0.1);
     }
     frequency = round(FrequencySum/ZeroNum);
-  
-    //Save frequency value as table--------------------------
+  }
+}
+
+void table_thread(){
+  while(true){
     int hun = floor(frequency/100);
     int ten = floor((frequency-hun*100)/10);
     int one = floor((frequency-hun*100-ten*10));
@@ -164,8 +166,20 @@ int main(){
         table[3]={0xEF};
         break;
     }
+  }
+}
 
-  // 7 segment display--------------------------------------
+int main(){
+  //Switch LED
+  redLED = 1;
+  greenLED = 0;
+  button.rise(&ISR1);
+  while(1){
+    //Calculate sine wave frequency
+    thread1.start(wave_thread);
+    //Save frequency value as table
+    thread2.start(table_thread);
+  // 7 segment display
     if( redLED == 0 ){
       greenLED = 1;
       for (int j = 0; j<3; j = j+1){
