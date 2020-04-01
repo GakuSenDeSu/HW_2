@@ -23,15 +23,22 @@ BusOut display(D6, D7, D9, D10, D11, D5, D4, D8);
 char table[3] = {0x3F, 0x3F, 0xBF};
 
 // LED switch setup
-DigitalIn  Switch(SW3);
+InterruptIn Switch(SW3);
 DigitalOut redLED(LED1);
 DigitalOut greenLED(LED2);
 
+void ISR1(){
+  redLED = !redLED;
+  greenLED = !greenLED;
+}
+
 int main(){
-  //Calculate sine wave frequency
+  //Switch LED
   redLED = 1;
-  greenLED = 1;
+  greenLED = 0;
+  button.rise(&ISR1);
   while(1){
+    //Calculate sine wave frequency
     for (i = 0; i < sample; i++){
       Aout = Ain;
       ADCdata[i] = Ain;
@@ -51,7 +58,7 @@ int main(){
       }
       wait(1./sample);
     }
-    for (i = 0; i < sample; i++){
+    for (i = 0; i < sample; i++){ // print to python file
       pc.printf("%1.3f\r\n", ADCdata[i]);
       wait(0.1);
     }
@@ -158,10 +165,9 @@ int main(){
         break;
     }
 
-  //LED switch and 7 segment display--------------------------------------
-    if( Switch == 1 ){
+  // 7 segment display--------------------------------------
+    if( redLED == 0 ){
       greenLED = 1;
-      redLED = 0;
       for (int j = 0; j<3; j = j+1){
         display = table[j];
         wait(1);
