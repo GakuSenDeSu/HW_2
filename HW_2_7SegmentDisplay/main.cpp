@@ -31,11 +31,6 @@ DigitalOut greenLED(LED2);
 Thread thread1;
 Thread thread2;
 
-void ISR1(){
-  redLED = !redLED;
-  greenLED = !greenLED;
-}
-
 void wave_thread(){
   while(true){
     for (i = 0; i < sample; i++){
@@ -172,16 +167,16 @@ void table_thread(){
 int main(){
   //Switch LED
   redLED = 1;
-  greenLED = 0;
-  button.rise(&ISR1);
+  greenLED = 1;
   while(1){
     //Calculate sine wave frequency
     thread1.start(wave_thread);
     //Save frequency value as table
     thread2.start(table_thread);
   // 7 segment display
-    if( redLED == 0 ){
+    if( Switch == 0 ){
       greenLED = 1;
+      redLED = 0;
       for (int j = 0; j<3; j = j+1){
         display = table[j];
         wait(1);
@@ -190,6 +185,10 @@ int main(){
     else{
       redLED = 1;
       greenLED = 0;
+      for (int j = 0; j<3; j = j+1){
+        display = 0x00;
+        wait(1);
+      }
     }
   }
 }
