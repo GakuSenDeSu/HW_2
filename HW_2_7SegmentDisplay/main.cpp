@@ -28,6 +28,7 @@ DigitalOut greenLED(LED2);
 // Simulately running: Switch(with 7 segment display)+ print to python
 Thread thread1;
 Thread thread2;
+Thread thread3;
 
 void wave_thread(){
   while(true){
@@ -67,22 +68,17 @@ void table_thread(){
   }
 }
 
-int main(){
-  //Switch LED
+void 7segment_thread(){
   redLED = 1;
   greenLED = 1;
-  while(1){
-    //Calculate sine wave frequency
-    thread1.start(wave_thread);
-    //Save frequency value as table
-    thread2.start(table_thread);
-  // 7 segment display
+  while (true)
+  {
     if( Switch == 0 ){
       greenLED = 1;
       redLED = 0;
       for (int j = 0; j<3; j = j+1){
         display = table1[j];
-        wait(1);
+        wait(0.1);
       }
     }
     else{
@@ -90,8 +86,17 @@ int main(){
       greenLED = 0;
       for (int j = 0; j<3; j = j+1){
         display = 0x00;
-        wait(1);
+        wait(0.1);
       }
-    }
   }
+  
+}
+
+int main(){
+    //Calculate sine wave frequency
+    thread1.start(wave_thread);
+    //Save frequency value as table
+    thread2.start(table_thread);
+    // 7 segment display
+    thread3.start(7segment_thread);
 }
