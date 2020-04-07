@@ -13,10 +13,10 @@
     {
         "module": "BUILD/K66F",
         "size": {
-            ".text": 1176,
+            ".text": 1152,
             ".data": 11,
             ".bss": 1756,
-            ".text-delta": 24,
+            ".text-delta": -24,
             ".data-delta": 0,
             ".bss-delta": 0
         }
@@ -91,8 +91,8 @@
         "summary": {
             "static_ram": 12336,
             "static_ram_delta": 0,
-            "total_flash": 80315,
-            "total_flash_delta": 24
+            "total_flash": 80291,
+            "total_flash_delta": -24
         }
     }
 ]

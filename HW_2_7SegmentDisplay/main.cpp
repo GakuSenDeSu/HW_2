@@ -1,15 +1,11 @@
 #include "mbed.h"
 
 Serial pc( USBTX, USBRX );
-
-// Push wave to picoscope
 AnalogOut Aout(DAC0_OUT);
-
-// Read wave from picoscope
 AnalogIn Ain(A0);
 int sample = 256;
-float ADCdata[256];
 int i;
+float ADCdata[256];
 int TimeState =0;
 float InitialTime = 0.0;
 float FinalTime = 0.0;
@@ -53,10 +49,11 @@ void wave_thread(){
       wait(1./sample);
     }
     for (i = 0; i < sample; i++){ // print to python file
-      pc.printf("%1.3f\r\n", ADCdata[i]);
+      //pc.printf("%1.3f\r\n", ADCdata[i]);
       wait(0.1);
     }
     frequency = round(FrequencySum/ZeroNum);
+    pc.printf("%1.3f\r\n", frequency);
   }
 }
 
