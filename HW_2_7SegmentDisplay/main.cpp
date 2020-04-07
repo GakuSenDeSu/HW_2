@@ -3,9 +3,9 @@
 Serial pc( USBTX, USBRX );
 AnalogOut Aout(DAC0_OUT);
 AnalogIn Ain(A0);
-int sample = 256;
+int sample = 1024;
 int i;
-float ADCdata[256];
+float ADCdata[1024];
 //for frequency calculate
 int TimeState =0;
 float InitialTime = 0.0;
@@ -35,7 +35,7 @@ void wave_thread(){
     for (i = 0; i < sample; i++){
       Aout = Ain;
       ADCdata[i] = Ain;
-      wait_us((1./sample)*(10^6));
+      wait(1./sample);
     }
     for (i = 0; i < sample; i++){ // print to python file
       pc.printf("%1.3f\r\n", ADCdata[i]);
@@ -71,8 +71,6 @@ void table_thread(){
 }
 
 void segment_thread(){
-  redLED = 1;
-  greenLED = 1;
   while (true){
     if( Switch == 0 ){
       greenLED = 1;
@@ -94,10 +92,12 @@ void segment_thread(){
 }
 
 int main(){
+  redLED = 1;
+  greenLED = 1;
   //Calculate sine wave frequency
   thread1.start(wave_thread);
   //Save frequency value as table
-  //thread2.start(table_thread);
+  thread2.start(table_thread);
   // 7 segment display
-  //thread3.start(segment_thread);
+  thread3.start(segment_thread);
 }
