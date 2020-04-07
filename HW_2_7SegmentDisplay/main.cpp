@@ -8,10 +8,12 @@ int i;
 float ADCdata[1024];
 //for frequency calculate
 int TimeState =0;
-float InitialTime = 0.0;
-float FinalTime = 0.0;
+Timer InitialTime;
+Timer FinalTime;
+float initial = 0.0;
+float final = 0.0;
 float FrequencySum = 0.0;
-int ZeroNum = 1;
+int ZeroNum = 0;
 int frequency = 0;
 
 
@@ -38,24 +40,30 @@ void wave_thread(){
       wait(1./sample);
     }
     for (i = 0; i < sample; i++){ // print to python file
-      pc.printf("%1.3f\r\n", ADCdata[i]);
-      if (ADCdata[i] == 0 && TimeState == 0){
+      //pc.printf("%1.3f\r\n", ADCdata[i]);
+      InitialTime.start();
+      FinalTime.start();
+      if (ADCdata[i] == 0.3 && TimeState == 0){
         TimeState = 1;
-        InitialTime = time(NULL);
+        initial = InitialTime.read();
+        InitialTime.reset();
       }
-      else if(ADCdata[i] == 0 && TimeState == 1){
+      else if (ADCdata[i] == 0.3 && TimeState == 1){
         TimeState = 0;
-        FinalTime = time(NULL);
+        final = FinalTime.read();
+        FinalTime.reset();
       }
-      if (InitialTime !=0 && FinalTime != 0){
+      if (initial !=0 && final != 0){
         FrequencySum += (FinalTime-InitialTime);
-        InitialTime = 0;
-        FinalTime = 0;
+        initial = 0;
+        final = 0;
         ZeroNum++;
       }
       wait_us(100000);
     }
-    frequency = round(FrequencySum/ZeroNum);
+    frequency = 100;
+    // round(FrequencySum/ZeroNum);
+    pc.printf("%1.3f\r\n", frequency);
   }
 }
 
@@ -64,9 +72,9 @@ void table_thread(){
     int hun = floor(frequency/100);
     int ten = floor((frequency-hun*100)/10);
     int one = frequency-hun*100-ten*10;
-    table1[1] = table[hun-1];
-    table1[2] = table[ten-1];
-    table[3] = 0x80|table[one-1];
+    table1[0] = table[hun];
+    table1[1] = table[ten];
+    table[2] = 0x80|table[one];
   }
 }
 
