@@ -63,7 +63,6 @@ void wave_thread(){
       }
       wait_us(100000);
     }
-    //frequency = 100;
     frequency = round(FrequencySum/ZeroNum);
   }
 }
