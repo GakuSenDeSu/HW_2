@@ -16,7 +16,7 @@
             ".text": 1240,
             ".data": 17,
             ".bss": 5040,
-            ".text-delta": -40,
+            ".text-delta": 0,
             ".data-delta": 0,
             ".bss-delta": 0
         }
@@ -27,7 +27,7 @@
             ".text": 189,
             ".data": 10,
             ".bss": 37,
-            ".text-delta": -4,
+            ".text-delta": 0,
             ".data-delta": 0,
             ".bss-delta": 0
         }
@@ -50,17 +50,6 @@
             ".data": 0,
             ".bss": 0,
             ".text-delta": 0,
-            ".data-delta": 0,
-            ".bss-delta": 0
-        }
-    },
-    {
-        "module": "[lib]/m.a",
-        "size": {
-            ".text": 0,
-            ".data": 0,
-            ".bss": 0,
-            ".text-delta": -116,
             ".data-delta": 0,
             ".bss-delta": 0
         }
@@ -92,7 +81,7 @@
             "static_ram": 14928,
             "static_ram_delta": 0,
             "total_flash": 79432,
-            "total_flash_delta": -160
+            "total_flash_delta": 0
         }
     }
 ]

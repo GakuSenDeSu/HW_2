@@ -63,7 +63,7 @@ void wave_thread(){
     }
     frequency = 100;
     // round(FrequencySum/ZeroNum);
-    pc.printf("%1.3f\r\n", frequency);
+    pc.printf("%7.3f\r\n", frequency);
   }
 }
 
