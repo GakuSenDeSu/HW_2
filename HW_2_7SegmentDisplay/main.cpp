@@ -41,7 +41,7 @@ void wave_thread(){
       wait(1./sample);
     }
     for (i = 0; i < sample; i++){ // print to python file
-      //pc.printf("%1.3f\r\n", ADCdata[i]);
+      pc.printf("%1.3f\r\n", ADCdata[i]);
       // Calculate frequency
       InitialTime.start();
       FinalTime.start();
@@ -112,7 +112,6 @@ int main(){
   greenLED = 1;
   //Calculate sine wave frequency
   thread1.start(wave_thread);
-  //frequency = 100;
   //Save frequency value as table
   thread2.start(output_thread);
   // 7 segment display
