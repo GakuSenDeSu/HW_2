@@ -53,7 +53,7 @@ void wave_thread(){
         FinalTime = 0;
         ZeroNum++;
       }
-      wait_us(0.01*(10^6));
+      wait_us(100000);
     }
     frequency = round(FrequencySum/ZeroNum);
   }
@@ -97,7 +97,7 @@ int main(){
   //Calculate sine wave frequency
   thread1.start(wave_thread);
   //Save frequency value as table
-  thread2.start(table_thread);
+  //thread2.start(table_thread);
   // 7 segment display
-  thread3.start(segment_thread);
+  //thread3.start(segment_thread);
 }
