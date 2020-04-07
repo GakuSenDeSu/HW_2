@@ -18,10 +18,10 @@ int frequency = 0;
 // 7 segment display setup( suppose frequency < 999 )
 BusOut display(D6, D7, D9, D10, D11, D5, D4, D8);
 char table[10] = {0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x6F};
-char table1[3]
+char table1[3] = {0x3F,0x3F,0xBF};
 
 // LED switch setup
-InterruptIn Switch(SW3);
+DigitalIn Switch(SW3);
 DigitalOut redLED(LED1);
 DigitalOut greenLED(LED2);
 
@@ -35,7 +35,7 @@ void wave_thread(){
     for (i = 0; i < sample; i++){
       Aout = Ain;
       ADCdata[i] = Ain;
-      wait(1./sample);
+      wait_us((1./sample)*(10^6));
     }
     for (i = 0; i < sample; i++){ // print to python file
       pc.printf("%1.3f\r\n", ADCdata[i]);
@@ -53,7 +53,7 @@ void wave_thread(){
         FinalTime = 0;
         ZeroNum++;
       }
-      wait(0.01);
+      wait_us(0.01*(10^6));
     }
     frequency = round(FrequencySum/ZeroNum);
   }
@@ -64,21 +64,22 @@ void table_thread(){
     int hun = floor(frequency/100);
     int ten = floor((frequency-hun*100)/10);
     int one = frequency-hun*100-ten*10;
-    table1[3]={table[hun-1], table[ten-1], table[one-1]};
+    table1[1] = table[hun-1];
+    table1[2] = table[ten-1];
+    table[3] = 0x80|table[one-1];
   }
 }
 
-void 7segment_thread(){
+void segment_thread(){
   redLED = 1;
   greenLED = 1;
-  while (true)
-  {
+  while (true){
     if( Switch == 0 ){
       greenLED = 1;
       redLED = 0;
       for (int j = 0; j<3; j = j+1){
         display = table1[j];
-        wait(0.1);
+        wait_us(100000);
       }
     }
     else{
@@ -86,17 +87,17 @@ void 7segment_thread(){
       greenLED = 0;
       for (int j = 0; j<3; j = j+1){
         display = 0x00;
-        wait(0.1);
+        wait_us(100000);
       }
+    }
   }
-  
 }
 
 int main(){
-    //Calculate sine wave frequency
-    thread1.start(wave_thread);
-    //Save frequency value as table
-    thread2.start(table_thread);
-    // 7 segment display
-    thread3.start(7segment_thread);
+  //Calculate sine wave frequency
+  thread1.start(wave_thread);
+  //Save frequency value as table
+  thread2.start(table_thread);
+  // 7 segment display
+  thread3.start(segment_thread);
 }
