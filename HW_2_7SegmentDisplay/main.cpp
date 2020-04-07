@@ -3,9 +3,9 @@
 Serial pc( USBTX, USBRX );
 AnalogOut Aout(DAC0_OUT);
 AnalogIn Ain(A0);
-int sample = 128;
+int sample = 256;
 int i;
-float ADCdata[128];
+float ADCdata[256];
 //for frequency calculation
 int TimeState =0;
 Timer InitialTime;
@@ -41,16 +41,16 @@ void wave_thread(){
       wait(1./sample);
     }
     for (i = 0; i < sample; i++){ // print to python file
-      pc.printf("%1.3f\r\n", ADCdata[i]);
+      //pc.printf("%1.3f\r\n", ADCdata[i]);
       // Calculate frequency
       InitialTime.start();
       FinalTime.start();
-      if (ADCdata[i] == 0.3 && TimeState == 0){
+      if (ADCdata[i] == 1.000 && TimeState == 0){
         TimeState = 1;
         initial = InitialTime.read();
         InitialTime.reset();
       }
-      else if (ADCdata[i] == 0.3 && TimeState == 1){
+      else if (ADCdata[i] == 1.000 && TimeState == 1){
         TimeState = 0;
         final = FinalTime.read();
         FinalTime.reset();
@@ -114,9 +114,9 @@ int main(){
   thread1.start(wave_thread);
   //frequency = 100;
   //Save frequency value as table
-  thread2.start(table_thread);
+  thread2.start(output_thread);
   // 7 segment display
-  thread3.start(segment_thread);
+  thread3.start(table_thread);
   //output sine wave from K66F to picoscope
-  thread4.start(output_thread);
+  thread4.start(segment_thread);
 }
