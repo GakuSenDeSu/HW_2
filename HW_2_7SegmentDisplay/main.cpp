@@ -47,11 +47,13 @@ void wave_thread(){
       FinalTime.start();
       if (ADCdata[i] == 1.000 && TimeState == 0){
         TimeState = 1;
+        InitialTime.stop();
         initial = InitialTime.read();
         InitialTime.reset();
       }
       else if (ADCdata[i] == 1.000 && TimeState == 1){
         TimeState = 0;
+        FinalTime.stop();
         final = FinalTime.read();
         FinalTime.reset();
       }
