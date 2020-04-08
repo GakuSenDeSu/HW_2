@@ -12,7 +12,7 @@ Timer InitialTime;
 Timer FinalTime;
 float initial = 0.0;
 float final = 0.0;
-float FrequencySum = 0.0;
+float FrequencySum;
 int ZeroNum = 0;
 int frequency;
 
@@ -29,11 +29,11 @@ DigitalOut redLED(LED1);
 DigitalOut greenLED(LED2);
 
 // Simulately running: Switch(with 7 segment display)+ print to python
-Thread thread1;
-Thread thread2;
+//Thread thread1;
+//Thread thread2;
 Thread thread3;
 Thread thread4;
-
+/*
 void wave_thread(){
   while(true){
     for (i = 0; i < sample; i++){
@@ -67,7 +67,7 @@ void wave_thread(){
     }
     frequency = round(FrequencySum/ZeroNum);
   }
-}
+}*/
 
 void table_thread(){
   while(true){
@@ -101,23 +101,57 @@ void segment_thread(){
     }
   }
 }
-
+/*
 void output_thread(){
   while(true){
     Aout = Ain;
     wait(1./sample);
   }
-}
+}*/
 
 int main(){
   redLED = 1;
   greenLED = 1;
-  //Calculate sine wave frequency
-  thread1.start(wave_thread);
+  // Catch data from AWG
+  while(true){
+    for (i = 0; i < sample; i++){
+      ADCdata[i] = Ain;
+      Aout = Ain;
+      wait(1./sample);
+    }
+    for (i = 0; i < sample; i++){ // print to python file
+      pc.printf("%1.3f\r\n", ADCdata[i]);
+      // Calculate frequency
+      /*
+      InitialTime.start();
+      FinalTime.start();
+      if (ADCdata[i] == 1.000 && TimeState == 0){
+        TimeState = 1;
+        InitialTime.stop();
+        initial = InitialTime.read();
+        InitialTime.reset();
+      }
+      else if (ADCdata[i] == 1.000 && TimeState == 1){
+        TimeState = 0;
+        FinalTime.stop();
+        final = FinalTime.read();
+        FinalTime.reset();
+      }
+      if (initial !=0 && final != 0){
+        FrequencySum += (FinalTime-InitialTime);
+        initial = 0;
+        final = 0;
+        ZeroNum++;
+      }
+      */
+      wait_us(100000);
+    }
+  frequency = round(FrequencySum/ZeroNum);
   //Save frequency value as table
-  thread2.start(output_thread);
+  //thread2.start(output_thread);
   // 7 segment display
   thread3.start(table_thread);
   //output sine wave from K66F to picoscope
   thread4.start(segment_thread);
+  }
 }
